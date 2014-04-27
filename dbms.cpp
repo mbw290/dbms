@@ -28,7 +28,7 @@ class dbTable
 class Link
 {
   public:
-   Puppies *Pup;
+   dbTable *table;
    Link *Next;
 };
 
@@ -42,15 +42,9 @@ class LinkedList
       First = NULL;
     }
 
-   void AddPuppy(int A, int B)
+   void AddTable()
    {
      Link *newLink = new Link;
-     Puppies *newPup = new Puppies;
-     //Pup pointer is now pointing to our new puppy
-     newLink->Pup=newPup;
-     newPup->Age=A;
-     newPup->Breed=B;
-     newLink->Next=First; //makes next null
      First=newLink;
   }
 
@@ -58,22 +52,17 @@ class LinkedList
    {
      Link *lastItem=new Link;
      Link *newNode=new Link;
-     Puppies *newPup = new Puppies;
      lastItem=First;
        while (lastItem->Next != NULL)
        {
          lastItem=lastItem->Next;
        }
        lastItem->Next=newNode;
-       newNode->Pup=newPup;
-       newPup->Age=A;
-       newPup->Breed=B;
        newNode->Next=NULL; 
     }
 
   void RemovePuppy()
   {
-   delete First->Pup;
    First=First->Next;
   }
 
