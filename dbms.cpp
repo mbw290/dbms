@@ -3,11 +3,24 @@
 
 using namespace std;
 
-class Puppies
+class dbTable
 {
   public:
-    int Age;
-    int Breed;
+  	vector<int> intRow()
+	{
+	vector <int> v1;
+	return v1;
+	}
+  	vector<char> charRow()
+	{
+	vector <char> v1;
+	return v1;
+	}
+	vector<string> stringRow()
+	{
+	vector <string> v1;
+	return v1;
+	}
 };
 
 //we need a link to point to the puppy and the next item
