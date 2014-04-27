@@ -45,23 +45,28 @@ class LinkedList
    void AddTable()
    {
      Link *newLink = new Link;
+     dbTable *nTable;
+     newLink->table=nTable;
+     newLink->Next=First;
      First=newLink;
   }
 
-   void AddPuppyEnd(int A,int B)
+   void AddTableEnd(int A,int B)
    {
      Link *lastItem=new Link;
      Link *newNode=new Link;
+     dbTable *nTable=new dbTable;
      lastItem=First;
        while (lastItem->Next != NULL)
        {
          lastItem=lastItem->Next;
        }
        lastItem->Next=newNode;
+       newNode->table=dbTable;
        newNode->Next=NULL; 
     }
 
-  void RemovePuppy()
+  void RemoveTable()
   {
    First=First->Next;
   }
@@ -74,11 +79,11 @@ class LinkedList
        while (current != NULL)
        {
        temp=current->Next; 
-       delete current->Pup;
+       delete current->Table;
        delete current;
        current=temp;
        }
-    delete current->Pup;
+    delete current->Table;
     delete current;
   }
   
