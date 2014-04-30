@@ -1,49 +1,52 @@
 #include<iostream>
 #include <stdio.h>
-
+#include <vector>
 using namespace std;
 
-struct Field
+
+template <class atype>
+class Field
 {
-    public:
+public:
     string name;
+    atype val;
 };
 
-struct intField : Field
-{
-private: int val;
-};
-
-struct stringField : Field
-{
-private: string val;
-};
-
-struct doubleField : Field
-{
-private: double val;
-};
+/*struct intField : Field
+ {
+ private: int val;
+ };
+ 
+ struct stringField : Field
+ {
+ private: string val;
+ };
+ 
+ struct doubleField : Field
+ {
+ private: double val;
+ };*/
 
 
 class dbTable
 {
 public:
-  	vector<Field> intRow()
+  	vector<Field<int>> intRow()
 	{
-        vector <Field> v1;
+        vector <Field<int>> v1;
         return v1;
 	}
-  	vector<Field> charRow()
+  	vector<Field<double>> doubleRow()
 	{
-        vector <Field> v1;
+        vector <Field<double>> v1;
         return v1;
 	}
-	vector<Field> stringRow()
+	vector<Field<string>> stringRow()
 	{
-        vector <Field> v1;
+        vector <Field<string>> v1;
         return v1;
 	}
-    String name;
+    string name;
 };
 
 
@@ -51,89 +54,91 @@ public:
 //something to hold the list and methods to add to the list and remove etc.
 class Link
 {
-  public:
-   dbTable *table;
-   Link *Next;
+public:
+    dbTable *table;
+    Link *Next;
+    Link *current;
 };
 
 class LinkedList
 {
-  private:
+private:
     Link *First;
-  public:
+public:
+    string name;
     LinkedList()
     {
-      First = NULL;
+        First = NULL;
     }
-
-   void AddTable(String name)
-   {
-     Link *newLink = new Link;
-     dbTable *nTable;
-     newLink->table=nTable;
-     newLink->Next=First;
-     First=newLink;
-     name = name;
-  }
-
-   void AddTableEnd(int A,int B, String name)
-   {
-     name = name;
-       
-     Link *lastItem=new Link;
-     Link *newNode=new Link;
-     dbTable *nTable=new dbTable;
-     lastItem=First;
-       while (lastItem->Next != NULL)
-       {
-         lastItem=lastItem->Next;
-       }
-       lastItem->Next=newNode;
-       newNode->table=dbTable;
-       newNode->Next=NULL; 
-    }
-
-  void RemoveTable(String name)
-  {
-   First=First->Next;
-  }
-
-  void RemoveList(LinkedList LL)
-  {
-     Link *current=new Link;
-     Link *temp = new Link;
-     current=First;
-       while (current != NULL)
-       {
-       temp=current->Next; 
-       delete current->Table;
-       delete current;
-       current=temp;
-       }
-    delete current->Table;
-    delete current;
-  }
-  
-  void Display()
-  {
-   Link *current=First;
-   while (current != NULL)
-   {
-     cout << "Age: " << current->Pup->Age<<"\n"<<"Breed: "<<current->Pup->Breed<<"\n";
-     current = current->Next;
-   }
-  }
     
-  void DisplayTable()
+    void AddTable(string name)
+    {
+        Link *newLink = new Link;
+        dbTable *nTable;
+        newLink->table=nTable;
+        newLink->Next=First;
+        First=newLink;
+        name = name;
+    }
+    
+    void AddTableEnd(int A,int B, string name)
+    {
+        name = name;
+        
+        Link *lastItem=new Link;
+        Link *newNode=new Link;
+        dbTable *nTable=new dbTable;
+        lastItem=First;
+       
+        while (lastItem->Next != NULL)
+        {
+            lastItem=lastItem->Next;
+        }
+        lastItem->Next=newNode;
+        newNode->table = nTable;
+        newNode->Next=NULL;
+    }
+    
+    void RemoveTable(string name)
+    {
+        First=First->Next;
+    }
+    
+    void RemoveList(LinkedList LL)
+    {
+        Link *current=new Link;
+        Link *temp = new Link;
+        current=First;
+        while (current != NULL)
+        {
+            temp=current->Next;
+            delete current->table;
+            delete current;
+            current=temp;
+        }
+        delete current->table;
+        delete current;
+    }
+
+    void DisplayTable()
     {
         Link *current = First;
+    }
+    
+    LinkedList addDbTable(string name)
+    {
+        LinkedList LL;
+        LL.name = name;
+        return LL;
     }
 };
 
 void insert()
 {
-    cout << "Please choose the number that corresponds with your desired field: ";
-    cout << "1. Int field\n2. Double Field\n3. Add String Field";
+    int choice;
+    cout << "Please choose the number that corresponds with your desired field: " <<endl;
+    cout << "1. Int field\n2. Double Field\n3. Add String Field" << endl;
+    cin >> choice;
     switch(choice)
     {
         case 1:
@@ -146,31 +151,30 @@ void insert()
             //Add String Field
             break;
         default:
-            cout << "Choice not recognized, Please try again."
+            cout << "Choice not recognized, Please try again.";
             break;
     }
 }
 
 
-
-
 int main()
 {
     LinkedList database;
-    String name;
+    string name;
     int numOfFields;
     int choice;
     do
     {
-        cout << "Please choose the number that corresponds with your desired operation: ";
-        cout << "1. Add Table\n2. Drop Table\n3.Display Table\n4.Exit";
+        cout << "Please choose the number that corresponds with your desired operation: " << endl;
+        cout << "1. Add Table\n2. Drop Table\n3. Display Table\n4. Exit" << endl;
+        cin >> choice;
         switch(choice)
         {
             case 1:
-                cout << "Please enter the name of your table: ";
+                cout << "Please enter the name of your table: " << endl;
                 cin >> name;
-                AddTable(name);
-                cout << "Please enter the number of fields: ";
+                database.addDbTable(name);
+                cout << "Please enter the number of fields: " << endl;
                 cin >> numOfFields;
                 for(int i = 0; i < numOfFields; i++)
                 {
@@ -178,20 +182,20 @@ int main()
                 }
                 break;
             case 2:
-                cout << "What is the name of the table to drop?";
+                cout << "What is the name of the table to drop?" << endl;
                 cin >> name;
                 database.RemoveTable(name);
                 break;
             case 3:
-                cout << "Which table would you like to display?";
+                cout << "Which table would you like to display?" << endl;
                 cin >> name;
                 break;
             case 4: exit(0);
-                    break;
+                break;
             default:
-                cout << "Choice not recognized, Please try again."
+                cout << "Choice not recognized, Please try again." <<endl;
                 break;
         }
-
-    }while(choice != 4)
+        
+    }while(choice != 4);
 }
