@@ -1,6 +1,6 @@
 #include<iostream>
 #include <stdio.h>
-
+#include <vector>
 using namespace std;
 
 class dbTable
@@ -62,6 +62,11 @@ class LinkedList
     {
       First = NULL;
     }
+   LinkedList addDbTable()
+   {	
+	LinkedList LL;
+	return LL;
+   }
 
    void AddTable()
    {
@@ -83,7 +88,7 @@ class LinkedList
          lastItem=lastItem->Next;
        }
        lastItem->Next=newNode;
-       newNode->table=dbTable;
+       newNode->table=nTable;
        newNode->Next=NULL; 
     }
 
@@ -100,29 +105,22 @@ class LinkedList
        while (current != NULL)
        {
        temp=current->Next; 
-       delete current->Table;
+       delete current->table;
        delete current;
        current=temp;
        }
-    delete current->Table;
+    delete current->table;
     delete current;
   }
   
-  void Display()
-  {
-   Link *current=First;
-   while (current != NULL)
-   {
-     cout << "Age: " << current->Pup->Age<<"\n"<<"Breed: "<<current->Pup->Breed<<"\n";
-     current = current->Next;
-   }
-  }
 };
 
 void insert()
 {
+    int choice;
     cout << "Please choose the number that corresponds with your desired field: ";
     cout << "1. Int field\n2. Double Field\n3. Add String Field";
+    cin >> choice;
     switch(choice)
     {
         case 1:
@@ -135,7 +133,7 @@ void insert()
             //Add String Field
             break;
         default:
-            cout << "Choice not recognized, Please try again."
+            cout << "Choice not recognized, Please try again.";
             break;
     }
 }
@@ -146,14 +144,16 @@ void insert()
 int main()
 {
     int choice;
+    LinkedList LL;
     do
     {
         cout << "Please choose the number that corresponds with your desired operation: ";
         cout << "1. Add Table\n2. Drop Table\n3.Display Table\n4.Exit";
+	cin >> choice;
         switch(choice)
         {
             case 1:
-                //Add Table
+                LL.addDbTable();
                 break;
             case 2:
                 //Drop Table
@@ -161,12 +161,13 @@ int main()
             case 3:
                 //Display Table
                 break;
-            case 4: exit(0);
+            case 4: 
+		    return 0;
                     break;
             default:
-                cout << "Choice not recognized, Please try again."
+                cout << "Choice not recognized, Please try again.";
                 break;
         }
 
-    }while(choice != 4)
+    }while(choice != 4);
 }
