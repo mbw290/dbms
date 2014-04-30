@@ -12,21 +12,6 @@ public:
     atype val;
 };
 
-/*struct intField : Field
- {
- private: int val;
- };
- 
- struct stringField : Field
- {
- private: string val;
- };
- 
- struct doubleField : Field
- {
- private: double val;
- };*/
-
 
 class dbTable
 {
@@ -83,7 +68,7 @@ public:
     
     void AddTableEnd(int A,int B, string name)
     {
-        name = name;
+        
         
         Link *lastItem=new Link;
         Link *newNode=new Link;
@@ -96,15 +81,27 @@ public:
         }
         lastItem->Next=newNode;
         newNode->table = nTable;
+        newNode->table->name = name;
         newNode->Next=NULL;
     }
     
     void RemoveTable(string name)
     {
-        First=First->Next;
+        string dName;
+        while(First != NULL)
+        {
+            if(name.compare(name) == 0)
+            {
+                RemoveList(*First);
+                cout << "Deleted " << endl;
+                break;
+            }
+            First=First->Next;
+        }
+        
     }
     
-    void RemoveList(LinkedList LL)
+    void RemoveList(Link L)
     {
         Link *current=new Link;
         Link *temp = new Link;
@@ -112,11 +109,9 @@ public:
         while (current != NULL)
         {
             temp=current->Next;
-            delete current->table;
             delete current;
             current=temp;
         }
-        delete current->table;
         delete current;
     }
 
@@ -127,6 +122,15 @@ public:
     
     LinkedList addDbTable(string name)
     {
+        Link *newLink = new Link;
+        dbTable *nTable;
+
+        newLink->table=nTable;
+        
+       // newLink->table->name = name;
+        
+        newLink->Next=First;
+        First=newLink;
         LinkedList LL;
         LL.name = name;
         return LL;
