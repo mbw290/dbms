@@ -16,19 +16,19 @@ public:
 class dbTable
 {
 public:
-  	vector<Field<int>> intRow()
+  	vector<Field<int> > intRow()
 	{
-        vector <Field<int>> v1;
+        vector <Field<int> > v1;
         return v1;
 	}
-  	vector<Field<double>> doubleRow()
+  	vector<Field<double> > doubleRow()
 	{
-        vector <Field<double>> v1;
+        vector <Field<double> > v1;
         return v1;
 	}
-	vector<Field<string>> stringRow()
+	vector<Field<string> > stringRow()
 	{
-        vector <Field<string>> v1;
+        vector <Field<string> > v1;
         return v1;
 	}
     string name;
@@ -93,7 +93,7 @@ public:
             if(name.compare(name) == 0)
             {
                 RemoveList(*First);
-                cout << "Deleted " << endl;
+                cout << "Deleted " << name << endl;
                 break;
             }
             First=First->Next;
@@ -115,20 +115,24 @@ public:
         delete current;
     }
 
-    void DisplayTable()
+    void DisplayTable(string name)
     {
-        Link *current = First;
+	while (First != NULL)
+	{
+		if (name.compare(name) == 0)
+		{
+		cout << "DISPLAY " << name << "\n";
+		break;
+		}
+	First=First->Next;
+	}
     }
     
     LinkedList addDbTable(string name)
     {
         Link *newLink = new Link;
         dbTable *nTable;
-
         newLink->table=nTable;
-        
-       // newLink->table->name = name;
-        
         newLink->Next=First;
         First=newLink;
         LinkedList LL;
@@ -193,8 +197,9 @@ int main()
             case 3:
                 cout << "Which table would you like to display?" << endl;
                 cin >> name;
-                break;
-            case 4: exit(0);
+                database.DisplayTable(name);
+		break;
+            case 4: return 0;
                 break;
             default:
                 cout << "Choice not recognized, Please try again." <<endl;
