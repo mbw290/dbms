@@ -16,21 +16,12 @@ public:
 class dbTable
 {
 public:
-  	vector<Field<int> > intRow()
-	{
-        vector <Field<int> > v1;
-        return v1;
-	}
-  	vector<Field<double> > doubleRow()
-	{
-        vector <Field<double> > v1;
-        return v1;
-	}
-	vector<Field<string> > stringRow()
-	{
-        vector <Field<string> > v1;
-        return v1;
-	}
+    vector <Field<int>> intRow;
+ 
+  	vector<Field<double>> doubleRow;
+
+	vector<Field<string>> stringRow;
+    
     string name;
 };
 
@@ -43,6 +34,9 @@ public:
     dbTable *table;
     Link *Next;
     Link *current;
+    Field<int> *ifield;
+    Field<string> *strfield;
+    Field<double> *dfield;
 };
 
 class LinkedList
@@ -56,14 +50,41 @@ public:
         First = NULL;
     }
     
-    void AddTable(string name)
+
+    void AddIntField(Field<int> ifield)
+    {
+        Link *current;
+        current->table->intRow.push_back(ifield);
+        current = current->Next;
+        cout << "Int added";
+    }
+    
+    void AddStrField(Field<string> strfield)
+    {
+        Link *current;
+        current->table->stringRow.push_back(strfield);
+        current = current->Next;
+        cout << "String added";
+    }
+    
+    void AddDoubleField(Field<double> dfield)
+    {
+        Link *current;
+        current->table->doubleRow.push_back(dfield);
+        current = current->Next;
+        cout << "Double added";
+    }
+    
+    LinkedList addDbTable(string name)
     {
         Link *newLink = new Link;
         dbTable *nTable;
         newLink->table=nTable;
         newLink->Next=First;
         First=newLink;
-        name = name;
+        LinkedList LL;
+        LL.name = name;
+        return LL;
     }
     
     void AddTableEnd(int A,int B, string name)
@@ -93,7 +114,7 @@ public:
             if(name.compare(name) == 0)
             {
                 RemoveList(*First);
-                cout << "Deleted " << name << endl;
+                cout << "Deleted " << endl;
                 break;
             }
             First=First->Next;
@@ -115,42 +136,30 @@ public:
         delete current;
     }
 
-    void DisplayTable(string name)
+    void DisplayTable()
     {
-	while (First != NULL)
-	{
-		if (name.compare(name) == 0)
-		{
-		cout << "DISPLAY " << name << "\n";
-		break;
-		}
-	First=First->Next;
-	}
+        Link *current = First;
     }
     
-    LinkedList addDbTable(string name)
-    {
-        Link *newLink = new Link;
-        dbTable *nTable;
-        newLink->table=nTable;
-        newLink->Next=First;
-        First=newLink;
-        LinkedList LL;
-        LL.name = name;
-        return LL;
-    }
+
 };
 
 void insert()
 {
     int choice;
+    Field<int> userint;
+    Field<double> userdouble;
+    Field<string> userstr;
     cout << "Please choose the number that corresponds with your desired field: " <<endl;
     cout << "1. Int field\n2. Double Field\n3. Add String Field" << endl;
     cin >> choice;
     switch(choice)
     {
         case 1:
-            //Add Int Field
+            cout << "Please name your field";
+            cin >> userint.name;
+            cout << "Please enter your int";
+            cin >> userint.val;
             break;
         case 2:
             //Add Double Field
@@ -171,6 +180,7 @@ int main()
     string name;
     int numOfFields;
     int choice;
+
     do
     {
         cout << "Please choose the number that corresponds with your desired operation: " << endl;
@@ -197,9 +207,8 @@ int main()
             case 3:
                 cout << "Which table would you like to display?" << endl;
                 cin >> name;
-                database.DisplayTable(name);
-		break;
-            case 4: return 0;
+                break;
+            case 4: exit(0);
                 break;
             default:
                 cout << "Choice not recognized, Please try again." <<endl;
