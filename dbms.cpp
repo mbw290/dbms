@@ -141,9 +141,17 @@ public:
         delete current;
     }
 
-    void DisplayTable()
+      void DisplayTable(string name)
     {
-        Link *current = First;
+	while (First != NULL)
+	{
+		if (name.compare(name) == 0)
+		{
+		cout << "DISPLAY " << name << "\n";
+		break;
+		}
+	First=First->Next;
+	}
     }
     
 
