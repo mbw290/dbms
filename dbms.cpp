@@ -4,6 +4,7 @@
 using namespace std;
 
 
+
 template <class atype>
 class Field
 {
@@ -51,27 +52,31 @@ public:
     }
     
 
-    void AddIntField(Field<int> ifield)
+     vector<Field<int>> AddIntField(Field<int> ifield)
     {
         Link *current;
+        current = First;
         current->table->intRow.push_back(ifield);
-        current = current->Next;
+        //current = current->Next;
         cout << "Int added";
+        return current->table->intRow;
     }
     
     void AddStrField(Field<string> strfield)
     {
         Link *current;
+        current = First;
         current->table->stringRow.push_back(strfield);
-        current = current->Next;
+       // current = current->Next;
         cout << "String added";
     }
     
     void AddDoubleField(Field<double> dfield)
     {
         Link *current;
+        current = First;
         current->table->doubleRow.push_back(dfield);
-        current = current->Next;
+        //current = current->Next;
         cout << "Double added";
     }
     
@@ -144,7 +149,7 @@ public:
 
 };
 
-void insert()
+void insert(LinkedList &database)
 {
     int choice;
     Field<int> userint;
@@ -160,6 +165,7 @@ void insert()
             cin >> userint.name;
             cout << "Please enter your int";
             cin >> userint.val;
+            database.AddIntField(userint);
             break;
         case 2:
             //Add Double Field
@@ -176,11 +182,11 @@ void insert()
 
 int main()
 {
-    LinkedList database;
+  
     string name;
     int numOfFields;
     int choice;
-
+    LinkedList database;
     do
     {
         cout << "Please choose the number that corresponds with your desired operation: " << endl;
@@ -196,7 +202,7 @@ int main()
                 cin >> numOfFields;
                 for(int i = 0; i < numOfFields; i++)
                 {
-                    insert();
+                    insert(database);
                 }
                 break;
             case 2:
