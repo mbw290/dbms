@@ -17,11 +17,11 @@ public:
 class dbTable
 {
 public:
-    vector <Field<int>> intRow;
+    vector <int> intRow;
  
-  	vector<Field<double>> doubleRow;
+  	vector<Field<double> > doubleRow;
 
-	vector<Field<string>> stringRow;
+	vector<Field<string> > stringRow;
     
     string name;
 };
@@ -32,7 +32,7 @@ public:
 class Link
 {
 public:
-    dbTable *table;
+    dbTable *table = new dbTable;
     Link *Next;
     Link *current;
     Field<int> *ifield;
@@ -52,14 +52,19 @@ public:
     }
     
 
-     vector<Field<int>> AddIntField(Field<int> ifield)
+     vector<int> AddIntField(int i)
     {
-        Link *current;
-        current = First;
-        current->table->intRow.push_back(ifield);
-        //current = current->Next;
+        Link *newLink = new Link;
+        dbTable *ntable = new dbTable;
+        newLink->table=ntable;
+	vector<int> m = newLink->table->intRow;
+        vector<int>::iterator mit;
+        mit=m.begin();
+        m.insert(mit,i);
+        newLink = newLink->Next;
+        First= newLink;
         cout << "Int added";
-        return current->table->intRow;
+        return m;
     }
     
     void AddStrField(Field<string> strfield)
@@ -157,7 +162,7 @@ public:
 
 };
 
-void insert(LinkedList &database)
+void insert(LinkedList database)
 {
     int choice;
     Field<int> userint;
@@ -169,11 +174,13 @@ void insert(LinkedList &database)
     switch(choice)
     {
         case 1:
-            cout << "Please name your field";
-            cin >> userint.name;
+            //cout << "Please name your field";
+            //cin >> userint.name;
             cout << "Please enter your int";
-            cin >> userint.val;
-            database.AddIntField(userint);
+	    int x;
+            cin >> x;
+            //cin >> userint.val;
+            database.AddIntField(x);
             break;
         case 2:
             //Add Double Field
@@ -205,7 +212,7 @@ int main()
             case 1:
                 cout << "Please enter the name of your table: " << endl;
                 cin >> name;
-                database.addDbTable(name);
+                database=database.addDbTable(name);
                 cout << "Please enter the number of fields: " << endl;
                 cin >> numOfFields;
                 for(int i = 0; i < numOfFields; i++)
@@ -222,7 +229,7 @@ int main()
                 cout << "Which table would you like to display?" << endl;
                 cin >> name;
                 break;
-            case 4: exit(0);
+            case 4: return 0;
                 break;
             default:
                 cout << "Choice not recognized, Please try again." <<endl;
