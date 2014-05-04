@@ -17,11 +17,11 @@ public:
 class dbTable
 {
 public:
-    vector <int> intRow;
+    vector <Field<int>> intRow;
  
-  	vector<Field<double> > doubleRow;
+  	vector<Field<double>> doubleRow;
 
-	vector<Field<string> > stringRow;
+	vector<Field<string>> stringRow;
     
     string name;
 };
@@ -32,7 +32,7 @@ public:
 class Link
 {
 public:
-    dbTable *table = new dbTable;
+    dbTable *table;
     Link *Next;
     Link *current;
     Field<int> *ifield;
@@ -52,36 +52,36 @@ public:
     }
     
 
-     vector<int> AddIntField(int i)
+     void AddIntField(Field<int> ifield)
     {
         Link *newLink = new Link;
         dbTable *ntable = new dbTable;
         newLink->table=ntable;
-	vector<int> m = newLink->table->intRow;
-        vector<int>::iterator mit;
-        mit=m.begin();
-        m.insert(mit,i);
+        ntable->intRow.push_back(ifield);
         newLink = newLink->Next;
         First= newLink;
         cout << "Int added";
-        return m;
     }
     
     void AddStrField(Field<string> strfield)
     {
-        Link *current;
-        current = First;
-        current->table->stringRow.push_back(strfield);
-       // current = current->Next;
+        Link *newLink = new Link;
+        dbTable *ntable = new dbTable;
+        newLink->table=ntable;
+        ntable->stringRow.push_back(strfield);
+        newLink = newLink->Next;
+        First= newLink;
         cout << "String added";
     }
     
     void AddDoubleField(Field<double> dfield)
     {
-        Link *current;
-        current = First;
-        current->table->doubleRow.push_back(dfield);
-        //current = current->Next;
+        Link *newLink = new Link;
+        dbTable *ntable = new dbTable;
+        newLink->table=ntable;
+        ntable->doubleRow.push_back(dfield);
+        newLink = newLink->Next;
+        First= newLink;
         cout << "Double added";
     }
     
@@ -118,7 +118,7 @@ public:
     
     void RemoveTable(string name)
     {
-        string dName;
+        
         while(First != NULL)
         {
             if(name.compare(name) == 0)
@@ -146,23 +146,15 @@ public:
         delete current;
     }
 
-      void DisplayTable(string name)
+    void DisplayTable()
     {
-	while (First != NULL)
-	{
-		if (name.compare(name) == 0)
-		{
-		cout << "DISPLAY " << name << "\n";
-		break;
-		}
-	First=First->Next;
-	}
+        Link *current = First;
     }
     
 
 };
 
-void insert(LinkedList database)
+void insert(LinkedList &database)
 {
     int choice;
     Field<int> userint;
@@ -174,19 +166,25 @@ void insert(LinkedList database)
     switch(choice)
     {
         case 1:
-            //cout << "Please name your field";
-            //cin >> userint.name;
+            cout << "Please name your field";
+            cin >> userint.name;
             cout << "Please enter your int";
-	    int x;
-            cin >> x;
-            //cin >> userint.val;
-            database.AddIntField(x);
+            cin >> userint.val;
+            database.AddIntField(userint);
             break;
         case 2:
-            //Add Double Field
+            cout << "Please name your field";
+            cin >> userdouble.name;
+            cout << "Please enter your double";
+            cin >> userdouble.val;
+            database.AddDoubleField(userdouble);
             break;
         case 3:
-            //Add String Field
+            cout << "Please name your field";
+            cin >> userstr.name;
+            cout << "Please enter your int";
+            cin >> userstr.val;
+            database.AddStrField(userstr);
             break;
         default:
             cout << "Choice not recognized, Please try again.";
@@ -212,7 +210,7 @@ int main()
             case 1:
                 cout << "Please enter the name of your table: " << endl;
                 cin >> name;
-                database=database.addDbTable(name);
+                database.addDbTable(name);
                 cout << "Please enter the number of fields: " << endl;
                 cin >> numOfFields;
                 for(int i = 0; i < numOfFields; i++)
@@ -229,7 +227,7 @@ int main()
                 cout << "Which table would you like to display?" << endl;
                 cin >> name;
                 break;
-            case 4: return 0;
+            case 4: exit(0);
                 break;
             default:
                 cout << "Choice not recognized, Please try again." <<endl;
