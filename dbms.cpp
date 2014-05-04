@@ -118,7 +118,7 @@ public:
     
     void RemoveTable(string name)
     {
-        
+        First = new Link;
         while(First != NULL)
         {
             if(name.compare(name) == 0)
@@ -146,9 +146,18 @@ public:
         delete current;
     }
 
-    void DisplayTable()
+    void DisplayTable(string name)
     {
-        Link *current = First;
+        First = new Link;
+        while (First != NULL)
+        {
+            if (name.compare(name) == 0)
+            {
+                cout << "DISPLAY " << name << "\n";
+                break;
+            }
+            First=First->Next;
+        }
     }
     
 
