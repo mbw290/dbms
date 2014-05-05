@@ -148,17 +148,24 @@ public:
 
     void DisplayTable(string name)
     {
-        First = new Link;
-        while (First != NULL)
+    Link *current = new Link;
+    Link *temp = new Link;
+    dbTable *nTable = new dbTable;
+    current->table = current->table;
+    cout << First->table->name;
+        while (current != NULL)
         {
-            if (name.compare(name) == 0)
-            {
-                cout << "DISPLAY " << name << "\n";
+        string tname=current->table->name;
+        cout << tname << "\n";
+                if (name.compare(tname) == 0)
+                {
+                cout << "DISPLAY " << tname << "\n";
                 break;
-            }
-            First=First->Next;
+                }
+        current=current->Next;
         }
     }
+
     
 
 };
