@@ -147,7 +147,7 @@ public:
     
     void RemoveTable(string name)
     {
-        FirstTable = new Link;
+        //FirstTable = new Link;
         while(FirstTable != NULL)
         {
             if(name.compare(name) == 0)
@@ -158,7 +158,6 @@ public:
             }
             FirstTable=FirstTable->Next;
         }
-        
     }
     
     void RemoveList(Link L)
@@ -194,8 +193,81 @@ public:
         }
     }
     
-    
+     void DisplayIntField(string tname, string fname)
+    {
+        while(FirstTable != NULL)
+        {
+            if(FirstTable->name.compare(tname))
+            {
+                while(FirstField != NULL)
+                {
+                    if(FirstField->name.compare(fname) == 0)
+                    {
+                        FirstField->table->inttoString();
+                    }
+                    else
+                    {
+                        FirstField = FirstField -> Next;
+                    }
+                }
+            }
+            else
+            {
+                FirstTable = FirstTable->Next;
+            }
+        }
+    }
 
+    void DisplayDoubleField(string tname, string fname)
+    {
+        while(FirstTable != NULL)
+        {
+            if(FirstTable->name.compare(tname))
+            {
+                while(FirstField != NULL)
+                {
+                    if(FirstField->name.compare(fname) == 0)
+                    {
+                        FirstField->table->doubletoString();
+                    }
+                    else
+                    {
+                        FirstField = FirstField -> Next;
+                    }
+                }
+            }
+            else
+            {
+                FirstTable = FirstTable->Next;
+            }
+        }
+    }
+    
+    void DisplayStrField(string tname, string fname)
+    {
+        while(FirstTable != NULL)
+        {
+            if(FirstTable->name.compare(tname))
+            {
+                while(FirstField != NULL)
+                {
+                    if(FirstField->name.compare(fname) == 0)
+                    {
+                        FirstField->table->strtoString();
+                    }
+                    else
+                    {
+                        FirstField = FirstField -> Next;
+                    }
+                }
+            }
+            else
+            {
+                FirstTable = FirstTable->Next;
+            }
+        }
+    }
+    
     void insertIntData(string tname, string fname, Field<int> data)
     {
         while(FirstTable != NULL)
@@ -220,6 +292,8 @@ public:
             }
         }
     }
+    
+    
     
     void insertDoubleData(string tname, string fname, Field<double> data)
     {
