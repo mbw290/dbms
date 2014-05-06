@@ -147,12 +147,11 @@ public:
     
     void RemoveTable(string name)
     {
-        //FirstTable = new Link;
         while(FirstTable != NULL)
         {
             if(name.compare(name) == 0)
             {
-                RemoveList(*FirstTable);
+                RemoveLink(*FirstTable);
                 cout << "Deleted " << endl;
                 break;
             }
@@ -160,7 +159,32 @@ public:
         }
     }
     
-    void RemoveList(Link L)
+    void RemoveField(string tname, string fname)
+    {
+        while(FirstTable != NULL)
+        {
+            if(FirstTable->name.compare(tname) == 0)
+            {
+                while(FirstField != NULL)
+                {
+                    if(FirstField->table->name.compare(fname) == 0)
+                    {
+                        RemoveLink(*FirstField);
+                        cout << "Deleted" << endl;
+                    }
+                    else
+                    {
+                        FirstField = FirstField->Next;
+                    }
+                }
+               // cout << "Deleted " << endl;
+                break;
+            }
+            FirstTable=FirstTable->Next;
+        }
+    }
+    
+    void RemoveLink(Link L)
     {
         Link *current=new Link;
         Link *temp = new Link;
@@ -268,6 +292,7 @@ public:
         }
     }
     
+    
     void insertIntData(string tname, string fname, Field<int> data)
     {
         while(FirstTable != NULL)
@@ -292,7 +317,6 @@ public:
             }
         }
     }
-    
     
     
     void insertDoubleData(string tname, string fname, Field<double> data)
@@ -385,6 +409,44 @@ void insert(LinkedList &database)
     }
 }
 
+void chooseDisplay(LinkedList &database)
+{
+    string tname;
+    string fname;
+    int choice;
+    cout << "Please choose the number that corresponds with your desired field type: " <<endl;
+    cout << "1. Int field\n2. Double Field\n3. String Field" << endl;
+    cin >> choice;
+    switch(choice)
+    {
+        case 1:
+            cout << "Please tell me which table" << endl;
+            cin >> tname;
+            cout << "Please enter your desired field" << endl;
+            cin >> fname;
+            database.DisplayIntField(tname, fname);
+            break;
+        case 2:
+            cout << "Please tell me which table" << endl;
+            cin >> tname;
+            cout << "Please enter your desired field" << endl;
+            cin >> fname;
+            database.DisplayDoubleField(tname, fname);
+            break;
+        case 3:
+            cout << "Please tell me which table" << endl;
+            cin >> tname;
+            cout << "Please enter your desired field" << endl;
+            cin >> fname;
+            database.DisplayStrField(tname,fname);
+            break;
+        default:
+            cout << "Choice not recognized, Please try again.";
+            break;
+    }
+}
+
+
 
 int main()
 {
@@ -405,7 +467,7 @@ int main()
     do
     {
         cout << "Please choose the number that corresponds with your desired operation: " << endl;
-        cout << "1. Add Table\n2. Drop Table\n3. Display Table\n4. Add to existing int field" << endl;
+        cout << "1. Add Table\n2. Drop Table\n3. Display Field\n4. Add to existing int field" << endl;
         cin >> choice;
         switch(choice)
         {
@@ -426,9 +488,7 @@ int main()
                 database.RemoveTable(name);
                 break;
             case 3:
-                cout << "Which table would you like to display?" << endl;
-                cin >> name;
-                database.DisplayTable(name);
+                chooseDisplay(database);
                 break;
             case 4:
                 cout << "What is the name of the table to insert into?" << endl;
@@ -450,5 +510,5 @@ int main()
                 break;
         }
         
-    }while(choice != 4);
+    }while(choice != 6);
 }
