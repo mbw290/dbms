@@ -259,7 +259,7 @@ void insert(LinkedList &database)
     Field<double> userdouble;
     Field<string> userstr;
     cout << "Please choose the number that corresponds with your desired field: " <<endl;
-    cout << "1. Int field\n2. Double Field\n3. Add String Field" << endl;
+    cout << "1. Int field\n2. Double Field\n3. String Field" << endl;
     cin >> choice;
     switch(choice)
     {
@@ -297,13 +297,20 @@ int main()
     string name;
     string tableName;
     string fieldName;
+    string dataName;
+    string data;
+    Field<int> intFieldData;
+    Field<double> doubleFieldData;
+    Field<string> stringFieldData;
+    int Idata;
+    double Ddata;
     int numOfFields;
     int choice;
     LinkedList database;
     do
     {
         cout << "Please choose the number that corresponds with your desired operation: " << endl;
-        cout << "1. Add Table\n2. Drop Table\n3. Display Table\n4. Exit" << endl;
+        cout << "1. Add Table\n2. Drop Table\n3. Display Table\n4. Add to existing int field" << endl;
         cin >> choice;
         switch(choice)
         {
@@ -333,7 +340,13 @@ int main()
                 cin >> tableName;
                 cout << "What field would you like to insert into?" << endl;
                 cin >> fieldName;
-                
+                cout << "What is the name of the field data?" << endl;
+                cin >> dataName;
+                cout << "Enter data" <<endl;
+                cin >> Idata;
+                intFieldData.name = dataName;
+                intFieldData.val = Idata;
+                database.insertIntData(tableName, fieldName, intFieldData);
                 break;
             case 5: exit(0);
                 break;
