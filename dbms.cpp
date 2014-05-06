@@ -18,9 +18,9 @@ class dbTable
 {
 public:
     vector <Field<int>> intRow;
- 
+    
   	vector<Field<double>> doubleRow;
-
+    
 	vector<Field<string>> stringRow;
     
     string name;
@@ -51,8 +51,8 @@ public:
         First = NULL;
     }
     
-
-     void AddIntField(Field<int> ifield)
+    
+    void AddIntField(Field<int> ifield)
     {
         Link *newLink = new Link;
         dbTable *ntable = new dbTable;
@@ -105,7 +105,7 @@ public:
         Link *newNode=new Link;
         dbTable *nTable=new dbTable;
         lastItem=First;
-       
+        
         while (lastItem->Next != NULL)
         {
             lastItem=lastItem->Next;
@@ -145,29 +145,29 @@ public:
         }
         delete current;
     }
-
+    
     void DisplayTable(string name)
     {
-    Link *current = new Link;
-    Link *temp = new Link;
-    dbTable *nTable = new dbTable;
-    current->table = current->table;
-    cout << First->table->name;
+        Link *current = First;
+        Link *temp = new Link;
+        dbTable *nTable = new dbTable;
+        current->table = current->table;
+        cout << First->table->name;
         while (current != NULL)
         {
-        string tname=current->table->name;
-        cout << tname << "\n";
-                if (name.compare(tname) == 0)
-                {
+            string tname=current->table->name;
+            cout << tname << "\n";
+            if (name.compare(tname) == 0)
+            {
                 cout << "DISPLAY " << tname << "\n";
                 break;
-                }
-        current=current->Next;
+            }
+            current=current->Next;
         }
     }
-
     
-
+    
+    
 };
 
 void insert(LinkedList &database)
@@ -211,7 +211,7 @@ void insert(LinkedList &database)
 
 int main()
 {
-  
+    
     string name;
     int numOfFields;
     int choice;
