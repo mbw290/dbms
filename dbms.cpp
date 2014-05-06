@@ -38,11 +38,6 @@ public:
     Field<int> *ifield;
     Field<string> *strfield;
     Field<double> *dfield;
-    vector <Field<int>> intField;
-    
-  	vector<Field<double>> doubleField;
-    
-	vector<Field<string>> stringField;
     
     string name;
 };
@@ -175,6 +170,11 @@ public:
         }
     }
     
+    
+    void DisplayField(string fieldName)
+    {
+        
+    }
     void insertIntData(string tname, string fname, Field<int> data)
     {
         while(FirstTable != NULL)
@@ -185,7 +185,7 @@ public:
                 {
                     if(FirstField->name.compare(fname))
                     {
-                        FirstField->intField.push_back(data);
+                        FirstField->table->intRow.push_back(data);
                     }
                     else
                     {
@@ -210,7 +210,7 @@ public:
                 {
                     if(FirstField->name.compare(fname))
                     {
-                        FirstField->doubleField.push_back(data);
+                        FirstField->table->doubleRow.push_back(data);
                     }
                     else
                     {
@@ -235,7 +235,7 @@ public:
                 {
                     if(FirstField->name.compare(fname))
                     {
-                        FirstField->stringField.push_back(data);
+                        FirstField->table->stringRow.push_back(data);
                     }
                     else
                     {
