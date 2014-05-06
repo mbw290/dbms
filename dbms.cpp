@@ -38,17 +38,26 @@ public:
     Field<int> *ifield;
     Field<string> *strfield;
     Field<double> *dfield;
+    vector <Field<int>> intField;
+    
+  	vector<Field<double>> doubleField;
+    
+	vector<Field<string>> stringField;
+    
+    string name;
 };
 
 class LinkedList
 {
 private:
-    Link *First;
+    Link *FirstTable;
+    Link *FirstField;
 public:
-    string name;
+    
     LinkedList()
     {
-        First = NULL;
+        FirstTable = NULL;
+        FirstField = NULL;
     }
     
     
@@ -58,8 +67,8 @@ public:
         dbTable *ntable = new dbTable;
         newLink->table=ntable;
         ntable->intRow.push_back(ifield);
-        newLink = newLink->Next;
-        First= newLink;
+        newLink->Next = FirstField;
+        FirstField= newLink;
         cout << "Int added";
     }
     
@@ -69,8 +78,8 @@ public:
         dbTable *ntable = new dbTable;
         newLink->table=ntable;
         ntable->stringRow.push_back(strfield);
-        newLink = newLink->Next;
-        First= newLink;
+        newLink->Next = FirstField;
+        FirstField= newLink;
         cout << "String added";
     }
     
@@ -80,8 +89,8 @@ public:
         dbTable *ntable = new dbTable;
         newLink->table=ntable;
         ntable->doubleRow.push_back(dfield);
-        newLink = newLink->Next;
-        First= newLink;
+        newLink->Next = FirstField;
+        FirstField= newLink;
         cout << "Double added";
     }
     
@@ -90,10 +99,10 @@ public:
         Link *newLink = new Link;
         dbTable *nTable;
         newLink->table=nTable;
-        newLink->Next=First;
-        First=newLink;
+        newLink->Next=FirstTable;
+        FirstTable=newLink;
         LinkedList LL;
-        LL.name = name;
+       // LL.name = name;
         return LL;
     }
     
@@ -104,7 +113,7 @@ public:
         Link *lastItem=new Link;
         Link *newNode=new Link;
         dbTable *nTable=new dbTable;
-        lastItem=First;
+        lastItem=FirstTable;
         
         while (lastItem->Next != NULL)
         {
@@ -118,16 +127,16 @@ public:
     
     void RemoveTable(string name)
     {
-        First = new Link;
-        while(First != NULL)
+        FirstTable = new Link;
+        while(FirstTable != NULL)
         {
             if(name.compare(name) == 0)
             {
-                RemoveList(*First);
+                RemoveList(*FirstTable);
                 cout << "Deleted " << endl;
                 break;
             }
-            First=First->Next;
+            FirstTable=FirstTable->Next;
         }
         
     }
@@ -136,7 +145,7 @@ public:
     {
         Link *current=new Link;
         Link *temp = new Link;
-        current=First;
+        current=FirstTable;
         while (current != NULL)
         {
             temp=current->Next;
@@ -148,11 +157,11 @@ public:
     
     void DisplayTable(string name)
     {
-        Link *current = First;
+        Link *current = FirstTable;
         Link *temp = new Link;
         dbTable *nTable = new dbTable;
-        current->table = current->table;
-        cout << First->table->name;
+        //current->table = current->table;
+        cout << FirstTable->table->name;
         while (current != NULL)
         {
             string tname=current->table->name;
@@ -166,7 +175,80 @@ public:
         }
     }
     
+    void insertIntData(string tname, string fname, Field<int> data)
+    {
+        while(FirstTable != NULL)
+        {
+            if(FirstTable->name.compare(tname) == 0)
+            {
+                while(FirstField != NULL)
+                {
+                    if(FirstField->name.compare(fname))
+                    {
+                        FirstField->intField.push_back(data);
+                    }
+                    else
+                    {
+                        FirstField = FirstField->Next;
+                    }
+                }
+            }
+            else
+            {
+                FirstTable = FirstTable -> Next;
+            }
+        }
+    }
     
+    void insertDoubleData(string tname, string fname, Field<double> data)
+    {
+        while(FirstTable != NULL)
+        {
+            if(FirstTable->name.compare(tname) == 0)
+            {
+                while(FirstField != NULL)
+                {
+                    if(FirstField->name.compare(fname))
+                    {
+                        FirstField->doubleField.push_back(data);
+                    }
+                    else
+                    {
+                        FirstField = FirstField->Next;
+                    }
+                }
+            }
+            else
+            {
+                FirstTable = FirstTable -> Next;
+            }
+        }
+    }
+    
+    void insertStrData(string tname, string fname, Field<string> data)
+    {
+        while(FirstTable != NULL)
+        {
+            if(FirstTable->name.compare(tname) == 0)
+            {
+                while(FirstField != NULL)
+                {
+                    if(FirstField->name.compare(fname))
+                    {
+                        FirstField->stringField.push_back(data);
+                    }
+                    else
+                    {
+                        FirstField = FirstField->Next;
+                    }
+                }
+            }
+            else
+            {
+                FirstTable = FirstTable -> Next;
+            }
+        }
+    }
     
 };
 
@@ -213,6 +295,8 @@ int main()
 {
     
     string name;
+    string tableName;
+    string fieldName;
     int numOfFields;
     int choice;
     LinkedList database;
@@ -242,8 +326,16 @@ int main()
             case 3:
                 cout << "Which table would you like to display?" << endl;
                 cin >> name;
+                database.DisplayTable(name);
                 break;
-            case 4: exit(0);
+            case 4:
+                cout << "What is the name of the table to insert into?" << endl;
+                cin >> tableName;
+                cout << "What field would you like to insert into?" << endl;
+                cin >> fieldName;
+                
+                break;
+            case 5: exit(0);
                 break;
             default:
                 cout << "Choice not recognized, Please try again." <<endl;
