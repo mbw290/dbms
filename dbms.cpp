@@ -24,6 +24,30 @@ public:
 	vector<Field<string>> stringRow;
     
     string name;
+    
+    void inttoString()
+    {
+        for(int i = 0; i < intRow.size(); i++)
+        {
+            cout << intRow[i].name << ":" << intRow[i].val << endl;
+        }
+    }
+    
+    void doubletoString()
+    {
+        for(int i = 0; i < doubleRow.size(); i++)
+        {
+            cout << doubleRow[i].name << ":" << doubleRow[i].val << endl;
+        }
+    }
+    
+    void strtoString()
+    {
+        for(int i = 0; i < stringRow.size(); i++)
+        {
+            cout << stringRow[i].name << ":" << stringRow[i].val << endl;
+        }
+    }
 };
 
 
@@ -80,6 +104,7 @@ public:
     
     void AddDoubleField(Field<double> dfield)
     {
+        
         Link *newLink = new Link;
         dbTable *ntable = new dbTable;
         newLink->table=ntable;
@@ -155,7 +180,6 @@ public:
         Link *current = FirstTable;
         Link *temp = new Link;
         dbTable *nTable = new dbTable;
-        //current->table = current->table;
         cout << FirstTable->table->name;
         while (current != NULL)
         {
@@ -171,10 +195,7 @@ public:
     }
     
     
-    void DisplayField(string fieldName)
-    {
-        
-    }
+
     void insertIntData(string tname, string fname, Field<int> data)
     {
         while(FirstTable != NULL)
