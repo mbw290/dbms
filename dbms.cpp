@@ -3,8 +3,11 @@
 #include <vector>
 using namespace std;
 
+/*Database Management System
+* Rob Mancuso and Matt Wimpelberg
+*/
 
-
+//Field class that can be used to hold the field name and actual value which can be of any type which is why we use a template
 template <class atype>
 class Field
 {
@@ -13,6 +16,7 @@ public:
     atype val;
 };
 
+//Database object to hold rows which are vectors of data that can be of any data type
 
 class dbTable
 {
@@ -25,6 +29,7 @@ public:
     
     string name;
     
+	//Print an integer as a string
     void inttoString()
     {
         for(int i = 0; i < intRow.size(); i++)
@@ -33,6 +38,8 @@ public:
         }
     }
     
+	//Print a double as a string
+	
     void doubletoString()
     {
         for(int i = 0; i < doubleRow.size(); i++)
@@ -40,7 +47,8 @@ public:
             cout << doubleRow[i].name << ":" << doubleRow[i].val << endl;
         }
     }
-    
+    //Just print a string
+	
     void strtoString()
     {
         for(int i = 0; i < stringRow.size(); i++)
@@ -51,18 +59,20 @@ public:
 };
 
 
-//we need a link to point to the puppy and the next item
-//something to hold the list and methods to add to the list and remove etc.
+/*We need a link to point to the database table and the next item
+* something to hold the list and methods to add to the list and remove etc.
+*/
 class Link
 {
 public:
+
+    //We will use links to each type of vector
     dbTable *table;
     Link *Next;
     Link *current;
     Field<int> *ifield;
     Field<string> *strfield;
     Field<double> *dfield;
-    
     string name;
 };
 
@@ -79,7 +89,7 @@ public:
         FirstField = NULL;
     }
     
-    
+    //Add a field of an integer type and move the links to point to the next field in the actual table
     void AddIntField(Field<int> ifield)
     {
         Link *newLink = new Link;
@@ -90,7 +100,8 @@ public:
         FirstField= newLink;
         cout << "Int added";
     }
-    
+        //Add a field of an string type and move the links to point to the next field in the actual table
+
     void AddStrField(Field<string> strfield)
     {
         Link *newLink = new Link;
@@ -101,7 +112,8 @@ public:
         FirstField= newLink;
         cout << "String added";
     }
-    
+        //Add a field of an string type and move the links to point to the next field in the actual table
+	
     void AddDoubleField(Field<double> dfield)
     {
         
@@ -114,6 +126,8 @@ public:
         cout << "Double added";
     }
     
+	//Add a table to the database
+	
     LinkedList addDbTable(string name)
     {
         Link *newLink = new Link;
@@ -126,6 +140,8 @@ public:
         return LL;
     }
     
+	//Add a table to the end
+	
     void AddTableEnd(int A,int B, string name)
     {
         
@@ -135,6 +151,8 @@ public:
         dbTable *nTable=new dbTable;
         lastItem=FirstTable;
         
+		//Go through the database until you get to the last node and add the new node after that
+		
         while (lastItem->Next != NULL)
         {
             lastItem=lastItem->Next;
@@ -149,6 +167,7 @@ public:
     {
         while(FirstTable != NULL)
         {
+		//Find the table that the user entered and Remove the link to it and point to the next table
             if(name.compare(name))
             {
                 RemoveLink(*FirstTable);
@@ -163,15 +182,18 @@ public:
     {
         while(FirstTable != NULL)
         {
+		//Go through the table and find the field that the user specified
             if(FirstTable->name.compare(tname))
             {
                 while(FirstField != NULL)
                 {
                     if(FirstField->table->name.compare(fname))
                     {
+					//Delete the link to the field that the user wishes to delete
                         RemoveLink(*FirstField);
                         cout << "Deleted" << endl;
                     }
+					//Check the next node if the current isn't the node the user specified
                     else
                     {
                         FirstField = FirstField->Next;
@@ -183,7 +205,7 @@ public:
             FirstTable=FirstTable->Next;
         }
     }
-    
+    //Remove a link to a database table
     void RemoveLink(Link L)
     {
         Link *current=new Link;
@@ -197,7 +219,7 @@ public:
         }
         delete current;
     }
-    
+    //Go through the table and display each value
     void DisplayTable(string name)
     {
         Link *current = FirstTable;
@@ -208,6 +230,7 @@ public:
         {
             string tname=current->table->name;
             cout << tname << "\n";
+			//Find the table that the user wishes to display and display that one
             if (name.compare(tname))
             {
                 cout << "DISPLAY " << tname << "\n";
@@ -216,7 +239,8 @@ public:
             current=current->Next;
         }
     }
-    
+    //Go through the list of fields and use our inttoString method to print the values
+
      void DisplayIntField(string tname, string fname)
     {
         while(FirstTable != NULL)
@@ -236,6 +260,7 @@ public:
                     }
                     if(FirstField == NULL)
                     {
+					//If we make it through each field and don't find a match tell the user we couldn't find it
                         cout<<"Field not Found" <<endl;
                         break;
                     }
@@ -249,6 +274,9 @@ public:
         }
     }
 
+	//Go through the list of fields and use our doubletoString method to print the values
+
+	
     void DisplayDoubleField(string tname, string fname)
     {
         while(FirstTable != NULL)
@@ -269,6 +297,7 @@ public:
                     }
                     if(FirstField == NULL)
                     {
+					//If we make it through each field and don't find a match tell the user we couldn't find it
                         cout<<"Field not Found" <<endl;
                         break;
                     }
@@ -283,6 +312,8 @@ public:
             }
         }
     }
+	
+	//Go through the list of fields and use our strtoString method to print the values
     
     void DisplayStrField(string tname, string fname)
     {
@@ -303,6 +334,7 @@ public:
                     }
                     if(FirstField == NULL)
                     {
+					//If we make it through each field and don't find a match tell the user we couldn't find it
                         cout<<"Field not Found" <<endl;
                         break;
                     }
@@ -317,6 +349,7 @@ public:
         }
     }
     
+	//Go to the table specified by the user, find the field they're inserting the data too, and push the values into the vector that represents that field
     
     void insertIntData(string tname, string fname, Field<int> data)
     {
@@ -356,6 +389,8 @@ public:
         }
     }
     
+	//Go to the table specified by the user, find the field they're inserting the data too, and push the values into the vector that represents that field
+
     
     void insertDoubleData(string tname, string fname, Field<double> data)
     {
@@ -384,6 +419,9 @@ public:
         }
     }
     
+	//Go to the table specified by the user, find the field they're inserting the data too, and push the values into the vector that represents that field
+
+	
     void insertStrData(string tname, string fname, Field<string> data)
     {
         while(FirstTable != NULL)
@@ -412,6 +450,8 @@ public:
     }
     
 };
+
+//Grab the information that we are inserting into the database from the user
 
 void insert(LinkedList &database)
 {
@@ -450,6 +490,8 @@ void insert(LinkedList &database)
             break;
     }
 }
+
+//Ask the user which table and which field they are trying to display the values of
 
 void chooseDisplay(LinkedList &database)
 {
@@ -507,6 +549,7 @@ int main()
     int numOfFields;
     int choice;
     LinkedList database;
+	//Find out which operation the user would like to perform and call the appropriate methods
     do
     {
         cout << "Please choose the number that corresponds with your desired operation: " << endl;
