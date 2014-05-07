@@ -4,10 +4,10 @@
 using namespace std;
 
 /*Database Management System
-* Rob Mancuso and Matt Wimpelberg
-* The database in this program is a linked list comprised of tables that are individual linkedlists of vectors
-* vectors are of various types depending on the datatype that the user wishes to enter
-*/
+ * Rob Mancuso and Matt Wimpelberg
+ * The database in this program is a linked list comprised of tables that are individual linkedlists of vectors
+ * vectors are of various types depending on the datatype that the user wishes to enter
+ */
 
 //Field class that can be used to hold the field name and actual value which can be of any type which is why we use a template
 template <class atype>
@@ -23,11 +23,11 @@ public:
 class dbTable
 {
 public:
-    vector <Field<int>> intRow;
+    vector <int> intRow;
     
-  	vector<Field<double>> doubleRow;
+  	vector<double> doubleRow;
     
-	vector<Field<string>> stringRow;
+	vector<string> stringRow;
     
     string name;
     
@@ -36,7 +36,7 @@ public:
     {
         for(int i = 0; i < intRow.size(); i++)
         {
-            cout << intRow[i].name << ":" << intRow[i].val << endl;
+            cout << intRow[i] << endl;
         }
     }
     
@@ -46,7 +46,7 @@ public:
     {
         for(int i = 0; i < doubleRow.size(); i++)
         {
-            cout << doubleRow[i].name << ":" << doubleRow[i].val << endl;
+            cout << doubleRow[i] << endl;
         }
     }
     //Just print a string
@@ -55,19 +55,19 @@ public:
     {
         for(int i = 0; i < stringRow.size(); i++)
         {
-            cout << stringRow[i].name << ":" << stringRow[i].val << endl;
+            cout << stringRow[i] << endl;
         }
     }
 };
 
 
 /*We need a link to point to the database table and the next item
-* something to hold the list and methods to add to the list and remove etc.
-*/
+ * something to hold the list and methods to add to the list and remove etc.
+ */
 class Link
 {
 public:
-
+    
     //We will use links to each type of vector
     dbTable *table;
     Link *Next;
@@ -92,19 +92,21 @@ public:
     }
     
     //Add a field of an integer type and move the links to point to the next field in the actual table
-    void AddIntField(Field<int> ifield)
+    void AddIntField(int ifield, string name)
     {
         Link *newLink = new Link;
         dbTable *ntable = new dbTable;
         newLink->table=ntable;
+        newLink->table->name = name;
         ntable->intRow.push_back(ifield);
         newLink->Next = FirstField;
-        FirstField= newLink;
-        cout << "Int added";
+        FirstField = newLink;
+        
+        cout << "Int added" << endl;
     }
-        //Add a field of an string type and move the links to point to the next field in the actual table
-
-    void AddStrField(Field<string> strfield)
+    //Add a field of an string type and move the links to point to the next field in the actual table
+    
+    void AddStrField(string strfield, string name)
     {
         Link *newLink = new Link;
         dbTable *ntable = new dbTable;
@@ -112,11 +114,12 @@ public:
         ntable->stringRow.push_back(strfield);
         newLink->Next = FirstField;
         FirstField= newLink;
+        //FirstField->name = name;
         cout << "String added";
     }
-        //Add a field of an string type and move the links to point to the next field in the actual table
+    //Add a field of an string type and move the links to point to the next field in the actual table
 	
-    void AddDoubleField(Field<double> dfield)
+    void AddDoubleField(double dfield, string name)
     {
         
         Link *newLink = new Link;
@@ -124,7 +127,9 @@ public:
         newLink->table=ntable;
         ntable->doubleRow.push_back(dfield);
         newLink->Next = FirstField;
+        FirstField->name = name;
         FirstField= newLink;
+        
         cout << "Double added";
     }
     
@@ -138,7 +143,7 @@ public:
         newLink->Next=FirstTable;
         FirstTable=newLink;
         LinkedList LL;
-       // LL.name = name;
+        // LL.name = name;
         return LL;
     }
     
@@ -169,7 +174,7 @@ public:
     {
         while(FirstTable != NULL)
         {
-		//Find the table that the user entered and Remove the link to it and point to the next table
+            //Find the table that the user entered and Remove the link to it and point to the next table
             if(name.compare(name))
             {
                 RemoveLink(*FirstTable);
@@ -184,14 +189,14 @@ public:
     {
         while(FirstTable != NULL)
         {
-		//Go through the table and find the field that the user specified
+            //Go through the table and find the field that the user specified
             if(FirstTable->name.compare(tname))
             {
                 while(FirstField != NULL)
                 {
                     if(FirstField->table->name.compare(fname))
                     {
-					//Delete the link to the field that the user wishes to delete
+                        //Delete the link to the field that the user wishes to delete
                         RemoveLink(*FirstField);
                         cout << "Deleted" << endl;
                     }
@@ -201,7 +206,7 @@ public:
                         FirstField = FirstField->Next;
                     }
                 }
-              
+                
                 break;
             }
             FirstTable=FirstTable->Next;
@@ -242,8 +247,8 @@ public:
         }
     }
     //Go through the list of fields and use our inttoString method to print the values
-
-     void DisplayIntField(string tname, string fname)
+    
+    void DisplayIntField(string tname, string fname)
     {
         while(FirstTable != NULL)
         {
@@ -262,7 +267,7 @@ public:
                     }
                     if(FirstField == NULL)
                     {
-					//If we make it through each field and don't find a match tell the user we couldn't find it
+                        //If we make it through each field and don't find a match tell the user we couldn't find it
                         cout<<"Field not Found" <<endl;
                         break;
                     }
@@ -275,9 +280,9 @@ public:
             }
         }
     }
-
+    
 	//Go through the list of fields and use our doubletoString method to print the values
-
+    
 	
     void DisplayDoubleField(string tname, string fname)
     {
@@ -299,11 +304,11 @@ public:
                     }
                     if(FirstField == NULL)
                     {
-					//If we make it through each field and don't find a match tell the user we couldn't find it
+                        //If we make it through each field and don't find a match tell the user we couldn't find it
                         cout<<"Field not Found" <<endl;
                         break;
                     }
-
+                    
                     
                 }
                 break;
@@ -336,11 +341,11 @@ public:
                     }
                     if(FirstField == NULL)
                     {
-					//If we make it through each field and don't find a match tell the user we couldn't find it
+                        //If we make it through each field and don't find a match tell the user we couldn't find it
                         cout<<"Field not Found" <<endl;
                         break;
                     }
-
+                    
                 }
                 break;
             }
@@ -353,7 +358,7 @@ public:
     
 	//Go to the table specified by the user, find the field they're inserting the data too, and push the values into the vector that represents that field
     
-    void insertIntData(string tname, string fname, Field<int> data)
+    void insertIntData(string tname, string fname, int data)
     {
         while(FirstTable != NULL)
         {
@@ -375,7 +380,7 @@ public:
                         cout<<"Field not Found" <<endl;
                         break;
                     }
-
+                    
                 }
                 break;
             }
@@ -392,9 +397,9 @@ public:
     }
     
 	//Go to the table specified by the user, find the field they're inserting the data too, and push the values into the vector that represents that field
-
     
-    void insertDoubleData(string tname, string fname, Field<double> data)
+    
+    void insertDoubleData(string tname, string fname, double data)
     {
         while(FirstTable != NULL)
         {
@@ -422,9 +427,9 @@ public:
     }
     
 	//Go to the table specified by the user, find the field they're inserting the data too, and push the values into the vector that represents that field
-
+    
 	
-    void insertStrData(string tname, string fname, Field<string> data)
+    void insertStrData(string tname, string fname, string data)
     {
         while(FirstTable != NULL)
         {
@@ -458,34 +463,35 @@ public:
 void insert(LinkedList &database)
 {
     int choice;
-    Field<int> userint;
-    Field<double> userdouble;
-    Field<string> userstr;
+    int userint;
+    double userdouble;
+    string userstr;
+    string name;
     cout << "Please choose the number that corresponds with your desired field: " <<endl;
     cout << "1. Int field\n2. Double Field\n3. String Field" << endl;
     cin >> choice;
     switch(choice)
     {
         case 1:
-            cout << "Please name your field";
-            cin >> userint.name;
-            cout << "Please enter your int";
-            cin >> userint.val;
-            database.AddIntField(userint);
+            cout << "Please name your field" << endl;
+            cin >> name;
+            cout << "Please enter your first int" << endl;
+            cin >> userint;
+            database.AddIntField(userint, name);
             break;
         case 2:
-            cout << "Please name your field";
-            cin >> userdouble.name;
-            cout << "Please enter your double";
-            cin >> userdouble.val;
-            database.AddDoubleField(userdouble);
+            cout << "Please name your field" << endl;
+            cin >> name;
+            cout << "Please enter your first double" << endl;
+            cin >> userdouble;
+            database.AddDoubleField(userdouble, name);
             break;
         case 3:
-            cout << "Please name your field";
-            cin >> userstr.name;
-            cout << "Please enter your int";
-            cin >> userstr.val;
-            database.AddStrField(userstr);
+            cout << "Please name your field" << endl;
+            cin >> name;
+            cout << "Please enter your first string" << endl;
+            cin >> userstr;
+            database.AddStrField(userstr, name);
             break;
         default:
             cout << "Choice not recognized, Please try again.";
@@ -542,9 +548,9 @@ int main()
     string fieldName;
     string dataName;
     string data;
-    Field<int> intFieldData;
-    Field<double> doubleFieldData;
-    Field<string> stringFieldData;
+    int intFieldData;
+    double doubleFieldData;
+    string stringFieldData;
     int Idata;
     double Ddata;
     string Strdata;
@@ -555,7 +561,7 @@ int main()
     do
     {
         cout << "Please choose the number that corresponds with your desired operation: " << endl;
-        cout << "1. Add Table\n2. Drop Table\n3. Display Field\n4. Add to existing int field\n5. Add to existing double field\n6.Add to existing string field\n7. exit" << endl;
+        cout << "1. Add Table\n2. Drop Table\n3. Display Field\n4. Add to existing int field\n5. Add to existing double field\n6. Add to existing string field\n7. exit" << endl;
         cin >> choice;
         switch(choice)
         {
@@ -583,39 +589,39 @@ int main()
                 cin >> tableName;
                 cout << "What field would you like to insert into?" << endl;
                 cin >> fieldName;
-                cout << "What is the name of the field data?" << endl;
-                cin >> dataName;
+                //cout << "What is the name of the field data?" << endl;
+                //cin >> dataName;
                 cout << "Enter data" <<endl;
                 cin >> Idata;
-                intFieldData.name = dataName;
-                intFieldData.val = Idata;
-                database.insertIntData(tableName, fieldName, intFieldData);
+                //intFieldData.name = dataName;
+                //intFieldData.val = Idata;
+                database.insertIntData(tableName, fieldName, Idata);
                 break;
             case 5:
                 cout << "What is the name of the table to insert into?" << endl;
                 cin >> tableName;
                 cout << "What field would you like to insert into?" << endl;
                 cin >> fieldName;
-                cout << "What is the name of the field data?" << endl;
-                cin >> dataName;
+               // cout << "What is the name of the field data?" << endl;
+                //cin >> dataName;
                 cout << "Enter data" <<endl;
                 cin >> Ddata;
-                doubleFieldData.name = dataName;
-                doubleFieldData.val = Ddata;
-                database.insertDoubleData(tableName, fieldName, doubleFieldData);
+                //doubleFieldData.name = dataName;
+                //doubleFieldData.val = Ddata;
+                database.insertDoubleData(tableName, fieldName, Ddata);
                 break;
             case 6:
                 cout << "What is the name of the table to insert into?" << endl;
                 cin >> tableName;
                 cout << "What field would you like to insert into?" << endl;
                 cin >> fieldName;
-                cout << "What is the name of the field data?" << endl;
-                cin >> dataName;
+                //cout << "What is the name of the field data?" << endl;
+                //cin >> dataName;
                 cout << "Enter data" <<endl;
                 cin >> Strdata;
-                stringFieldData.name = dataName;
-                stringFieldData.val = Strdata;
-                database.insertStrData(tableName, fieldName, stringFieldData);
+               // stringFieldData.name = dataName;
+                //stringFieldData.val = Strdata;
+                database.insertStrData(tableName, fieldName, Strdata);
                 break;
             case 7: exit(0);
                 break;
