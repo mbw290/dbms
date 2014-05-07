@@ -5,6 +5,8 @@ using namespace std;
 
 /*Database Management System
 * Rob Mancuso and Matt Wimpelberg
+* The database in this program is a linked list comprised of tables that are individual linkedlists of vectors
+* vectors are of various types depending on the datatype that the user wishes to enter
 */
 
 //Field class that can be used to hold the field name and actual value which can be of any type which is why we use a template
