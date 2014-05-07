@@ -542,7 +542,7 @@ void chooseDisplay(LinkedList &database)
 
 int main()
 {
-    
+    const int MAXSTR = 100;
     string name;
     string tableName;
     string fieldName;
@@ -619,9 +619,16 @@ int main()
                 //cin >> dataName;
                 cout << "Enter data" <<endl;
                 cin >> Strdata;
+                if(Strdata.size() > MAXSTR)
+                {
+                    cout << "String too long. Must be under 100 characters. Start Over";
+                }
                // stringFieldData.name = dataName;
                 //stringFieldData.val = Strdata;
-                database.insertStrData(tableName, fieldName, Strdata);
+                else
+                {
+                    database.insertStrData(tableName, fieldName, Strdata);
+                }
                 break;
             case 7: exit(0);
                 break;
