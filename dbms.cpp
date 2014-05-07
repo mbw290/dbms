@@ -149,7 +149,7 @@ public:
     {
         while(FirstTable != NULL)
         {
-            if(name.compare(name) == 0)
+            if(name.compare(name))
             {
                 RemoveLink(*FirstTable);
                 cout << "Deleted " << endl;
@@ -163,11 +163,11 @@ public:
     {
         while(FirstTable != NULL)
         {
-            if(FirstTable->name.compare(tname) == 0)
+            if(FirstTable->name.compare(tname))
             {
                 while(FirstField != NULL)
                 {
-                    if(FirstField->table->name.compare(fname) == 0)
+                    if(FirstField->table->name.compare(fname))
                     {
                         RemoveLink(*FirstField);
                         cout << "Deleted" << endl;
@@ -177,7 +177,7 @@ public:
                         FirstField = FirstField->Next;
                     }
                 }
-               // cout << "Deleted " << endl;
+              
                 break;
             }
             FirstTable=FirstTable->Next;
@@ -208,7 +208,7 @@ public:
         {
             string tname=current->table->name;
             cout << tname << "\n";
-            if (name.compare(tname) == 0)
+            if (name.compare(tname))
             {
                 cout << "DISPLAY " << tname << "\n";
                 break;
@@ -225,15 +225,22 @@ public:
             {
                 while(FirstField != NULL)
                 {
-                    if(FirstField->name.compare(fname) == 0)
+                    if(FirstField->name.compare(fname))
                     {
                         FirstField->table->inttoString();
+                        break;
                     }
                     else
                     {
                         FirstField = FirstField -> Next;
                     }
+                    if(FirstField == NULL)
+                    {
+                        cout<<"Field not Found" <<endl;
+                        break;
+                    }
                 }
+                break;
             }
             else
             {
@@ -250,15 +257,25 @@ public:
             {
                 while(FirstField != NULL)
                 {
-                    if(FirstField->name.compare(fname) == 0)
+                    if(FirstField->name.compare(fname))
                     {
                         FirstField->table->doubletoString();
+                        break;
                     }
+                    
                     else
                     {
                         FirstField = FirstField -> Next;
                     }
+                    if(FirstField == NULL)
+                    {
+                        cout<<"Field not Found" <<endl;
+                        break;
+                    }
+
+                    
                 }
+                break;
             }
             else
             {
@@ -275,15 +292,23 @@ public:
             {
                 while(FirstField != NULL)
                 {
-                    if(FirstField->name.compare(fname) == 0)
+                    if(FirstField->name.compare(fname))
                     {
                         FirstField->table->strtoString();
+                        break;
                     }
                     else
                     {
                         FirstField = FirstField -> Next;
                     }
+                    if(FirstField == NULL)
+                    {
+                        cout<<"Field not Found" <<endl;
+                        break;
+                    }
+
                 }
+                break;
             }
             else
             {
@@ -297,19 +322,32 @@ public:
     {
         while(FirstTable != NULL)
         {
-            if(FirstTable->name.compare(tname) == 0)
+            if(FirstTable->name.compare(tname))
             {
                 while(FirstField != NULL)
                 {
                     if(FirstField->name.compare(fname))
                     {
                         FirstField->table->intRow.push_back(data);
+                        break;
                     }
                     else
                     {
                         FirstField = FirstField->Next;
                     }
+                    if(FirstField == NULL)
+                    {
+                        cout<<"Field not Found" <<endl;
+                        break;
+                    }
+
                 }
+                break;
+            }
+            else if(FirstTable == NULL)
+            {
+                cout<< "Table not found" << endl;
+                break;
             }
             else
             {
@@ -323,19 +361,21 @@ public:
     {
         while(FirstTable != NULL)
         {
-            if(FirstTable->name.compare(tname) == 0)
+            if(FirstTable->name.compare(tname))
             {
                 while(FirstField != NULL)
                 {
                     if(FirstField->name.compare(fname))
                     {
                         FirstField->table->doubleRow.push_back(data);
+                        break;
                     }
                     else
                     {
                         FirstField = FirstField->Next;
                     }
                 }
+                break;
             }
             else
             {
@@ -348,19 +388,21 @@ public:
     {
         while(FirstTable != NULL)
         {
-            if(FirstTable->name.compare(tname) == 0)
+            if(FirstTable->name.compare(tname))
             {
                 while(FirstField != NULL)
                 {
                     if(FirstField->name.compare(fname))
                     {
                         FirstField->table->stringRow.push_back(data);
+                        break;
                     }
                     else
                     {
                         FirstField = FirstField->Next;
                     }
                 }
+                break;
             }
             else
             {
@@ -461,13 +503,14 @@ int main()
     Field<string> stringFieldData;
     int Idata;
     double Ddata;
+    string Strdata;
     int numOfFields;
     int choice;
     LinkedList database;
     do
     {
         cout << "Please choose the number that corresponds with your desired operation: " << endl;
-        cout << "1. Add Table\n2. Drop Table\n3. Display Field\n4. Add to existing int field" << endl;
+        cout << "1. Add Table\n2. Drop Table\n3. Display Field\n4. Add to existing int field\n5. Add to existing double field\n6.Add to existing string field\n7. exit" << endl;
         cin >> choice;
         switch(choice)
         {
@@ -503,12 +546,37 @@ int main()
                 intFieldData.val = Idata;
                 database.insertIntData(tableName, fieldName, intFieldData);
                 break;
-            case 5: exit(0);
+            case 5:
+                cout << "What is the name of the table to insert into?" << endl;
+                cin >> tableName;
+                cout << "What field would you like to insert into?" << endl;
+                cin >> fieldName;
+                cout << "What is the name of the field data?" << endl;
+                cin >> dataName;
+                cout << "Enter data" <<endl;
+                cin >> Ddata;
+                doubleFieldData.name = dataName;
+                doubleFieldData.val = Ddata;
+                database.insertDoubleData(tableName, fieldName, doubleFieldData);
+                break;
+            case 6:
+                cout << "What is the name of the table to insert into?" << endl;
+                cin >> tableName;
+                cout << "What field would you like to insert into?" << endl;
+                cin >> fieldName;
+                cout << "What is the name of the field data?" << endl;
+                cin >> dataName;
+                cout << "Enter data" <<endl;
+                cin >> Strdata;
+                stringFieldData.name = dataName;
+                stringFieldData.val = Strdata;
+                database.insertStrData(tableName, fieldName, stringFieldData);
+                break;
+            case 7: exit(0);
                 break;
             default:
                 cout << "Choice not recognized, Please try again." <<endl;
                 break;
         }
-        
     }while(choice != 6);
 }
