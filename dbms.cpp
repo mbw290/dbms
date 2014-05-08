@@ -75,9 +75,9 @@ public:
     dbTable *table;
     Link *Next;
     Link *current;
-    Field<int> *ifield;
-    Field<string> *strfield;
-    Field<double> *dfield;
+   // Field<int> *ifield;
+   // Field<string> *strfield;
+   // Field<double> *dfield;
  
     string name;
 };
@@ -104,7 +104,6 @@ public:
         newLink->table=ntable;
         newLink->table->name = name;
         newLink->table->id = 0;
-        //ntable->intRow.push_back(ifield);
         newLink->Next = FirstField;
         FirstField = newLink;
         
@@ -118,10 +117,8 @@ public:
         dbTable *ntable = new dbTable;
         newLink->table=ntable;
         newLink->table->id = 2;
-        //ntable->stringRow.push_back(strfield);
         newLink->Next = FirstField;
         FirstField= newLink;
-        //FirstField->name = name;
         cout << "String added";
     }
     //Add a field of an string type and move the links to point to the next field in the actual table
@@ -136,9 +133,7 @@ public:
         dbTable *ntable = new dbTable;
         newLink->table=ntable;
         newLink->table->id = 1;
-       // ntable->doubleRow.push_back(dfield);
         newLink->Next = FirstField;
-        FirstField->name = name;
         FirstField= newLink;
         
         cout << "Double added";
@@ -156,29 +151,6 @@ public:
         LinkedList LL;
         // LL.name = name;
         return LL;
-    }
-    
-	//Add a table to the end
-	
-    void AddTableEnd(int A,int B, string name)
-    {
-        
-        
-        Link *lastItem=new Link;
-        Link *newNode=new Link;
-        dbTable *nTable=new dbTable;
-        lastItem=FirstTable;
-        
-		//Go through the database until you get to the last node and add the new node after that
-		
-        while (lastItem->Next != NULL)
-        {
-            lastItem=lastItem->Next;
-        }
-        lastItem->Next=newNode;
-        newNode->table = nTable;
-        newNode->table->name = name;
-        newNode->Next=NULL;
     }
     
     void RemoveTable(string name)
@@ -236,26 +208,6 @@ public:
             current=temp;
         }
         delete current;
-    }
-    //Go through the table and display each value
-    void DisplayTable(string name)
-    {
-        Link *current = FirstTable;
-        Link *temp = new Link;
-        dbTable *nTable = new dbTable;
-        cout << FirstTable->table->name;
-        while (current != NULL)
-        {
-            string tname=current->table->name;
-            cout << tname << "\n";
-			//Find the table that the user wishes to display and display that one
-            if (name.compare(tname))
-            {
-                cout << "DISPLAY " << tname << "\n";
-                break;
-            }
-            current=current->Next;
-        }
     }
     //Go through the list of fields and use our inttoString method to print the values
     void DispChange(string tname, string fname, bool tf)
@@ -318,23 +270,31 @@ public:
     {
         while(FirstTable != NULL)
         {
-            if(FirstField->table->disp)
+            
+            if(FirstTable->name.compare(tname))
             {
-                switch(FirstField->table->id)
+                while(FirstField!=NULL)
                 {
-                    case 0:
-                        DisplayIntField(tname, FirstField->table->name);
-                        break;
-                    case 1:
-                        DisplayDoubleField(tname, FirstField->table->name);
-                        break;
-                    case 2:
-                        DisplayStrField(tname,FirstField->table->name);
-                        break;
+                    if(FirstField->table->disp)
+                    {
+                        switch(FirstField->table->id)
+                        {
+                            case 0:
+                                DisplayIntField(tname, FirstField->table->name);
+                                break;
+                            case 1:
+                                DisplayDoubleField(tname, FirstField->table->name);
+                                break;
+                            case 2:
+                                DisplayStrField(tname,FirstField->table->name);
+                                break;
+                        }
+                    }
+                    FirstField = FirstField->Next;
                 }
-                break;
+                
             }
-                //FirstField = FirstField->Next;
+            break;
         }
     }
     
@@ -346,14 +306,11 @@ public:
             {
                 while(FirstField != NULL)
                 {
-                    if(FirstField->name.compare(fname))
+                    if(FirstField->table->disp)
                     {
                         cout << FirstField->name << "---------------------\n" << endl;
                         FirstField->table->inttoString();
                         break;
-                    }
-                    else
-                    {
                         FirstField = FirstField -> Next;
                     }
                     if(FirstField == NULL)
@@ -383,16 +340,12 @@ public:
             {
                 while(FirstField != NULL)
                 {
-                    if(FirstField->name.compare(fname))
+                    if(FirstField->table->disp)
                     {
                         cout << FirstField->name << "---------------------\n" << endl;
                         FirstField->table->doubletoString();
-                        break;
-                    }
-                    
-                    else
-                    {
                         FirstField = FirstField -> Next;
+                         break;
                     }
                     if(FirstField == NULL)
                     {
@@ -400,9 +353,17 @@ public:
                         cout<<"Field not Found" <<endl;
                         break;
                     }
-                    
+                    else
+                    {
+                        break;
+                    }
                     
                 }
+               
+            }
+            else if(FirstTable == NULL)
+            {
+                cout << "Table not found";
                 break;
             }
             else
@@ -422,11 +383,11 @@ public:
             {
                 while(FirstField != NULL)
                 {
-                    if(FirstField->name.compare(fname))
+                    if(FirstField->table->disp)
                     {
                         cout << FirstField->name << "---------------------\n" << endl;
                         FirstField->table->strtoString();
-                        break;
+                        FirstField = FirstField -> Next;
                     }
                     else
                     {
@@ -556,9 +517,6 @@ public:
 void insert(LinkedList &database)
 {
     int choice;
-    int userint;
-    double userdouble;
-    string userstr;
     string name;
     cout << "Please choose the number that corresponds with your desired field: " <<endl;
     cout << "1. Int field\n2. Double Field\n3. String Field" << endl;
@@ -568,22 +526,16 @@ void insert(LinkedList &database)
         case 1:
             cout << "Please name your field" << endl;
             cin >> name;
-            //cout << "Please enter your first int" << endl;
-           // cin >> userint;
             database.AddIntField(name);
             break;
         case 2:
             cout << "Please name your field" << endl;
             cin >> name;
-           // cout << "Please enter your first double" << endl;
-          //  cin >> userdouble;
             database.AddDoubleField(name);
             break;
         case 3:
             cout << "Please name your field" << endl;
             cin >> name;
-           // cout << "Please enter your first string" << endl;
-           // cin >> userstr;
             database.AddStrField(name);
             break;
         default:
